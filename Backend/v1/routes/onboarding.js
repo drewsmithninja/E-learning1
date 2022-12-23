@@ -6,7 +6,7 @@ import { postMentor } from "../controllers/developmentFile.js";
 import { postUserEducation } from "../controllers/education.js";
 import { postUserExperience } from "../controllers/experience.js";
 import { getFilteredMenteeLIst } from "../controllers/menteeList.js";
-import { getFilteredMentorLIst } from "../controllers/mentorList.js";
+import { getFilteredMentorLIst,getFilteredMentorGetList,getMentorDetails } from "../controllers/mentorList.js";
 import { getSkillsList } from "../controllers/skillsList.js";
 import { sendMail, userVerification } from "../controllers/userVerification.js";
 import auth from "../middleware/auth.js";
@@ -29,7 +29,8 @@ router.put('/new-user/mentor-topics', auth, userMentorTopics); // Add mentor top
 router.get('/new-user/mentor-list', auth, getFilteredMentorLIst);
 router.get('/new-user/mentee-list', auth, getFilteredMenteeLIst);
 router.put('/new-user/add-connections', auth, addConnections); // Add connections
-
+router.post('/new-user/mentorList', getFilteredMentorGetList);
+router.post('/new-user/mentorDetails', getMentorDetails);
 // Only for development:
 router.put('/postmentor', postMentor);
 export default router;
