@@ -1,0 +1,51 @@
+@import './variables';
+
+// $primary: $primary;
+  // "secondary":  $secondary,
+//   "success":    $success,
+//   "info":       $info,
+//   "warning":    $warning,
+//   "danger":     $danger,
+//   "light":      $light,
+//   "dark":       $dark
+
+$theme-colors: (
+  "primary": $primary,
+  "secondary": $secondary,
+  // "dark": $dark-color,
+  // "info": $info-color,
+  // "warning": $warning-color,
+  // // without Theme
+  //   "white": $white-color,
+  // "black": $black-color,
+  // "link": $link-color
+);
+
+//$primary: $primary-color,
+
+@import url("../../node_modules/bootstrap/scss/bootstrap.scss");
+
+html {
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+}
+
+a {
+  text-decoration: none;
+}
+
+h1,
+.h1,
+h2,
+.h2,
+h3,
+.h3,
+h4,
+.h4,
+h5,
+.h5,
+h6,
+.h6,
+p {
+  margin: 0;
+}
