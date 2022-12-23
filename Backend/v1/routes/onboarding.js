@@ -29,8 +29,8 @@ router.put('/new-user/mentor-topics', auth, userMentorTopics); // Add mentor top
 router.get('/new-user/mentor-list', auth, getFilteredMentorLIst);
 router.get('/new-user/mentee-list', auth, getFilteredMenteeLIst);
 router.put('/new-user/add-connections', auth, addConnections); // Add connections
-router.post('/new-user/mentorList', getFilteredMentorGetList);
-router.post('/new-user/mentorDetails', getMentorDetails);
+router.post('/new-user/mentorList',auth, getFilteredMentorGetList);
+router.post('/new-user/mentorDetails',auth, getMentorDetails);
 // Only for development:
 router.put('/postmentor', postMentor);
 export default router;
