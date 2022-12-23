@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Card,
   Container,
@@ -10,27 +10,38 @@ import {
 import { useSelector } from "react-redux";
 import FormRange from "react-bootstrap/esm/FormRange";
 import MentorCard from "../../components/mantor/mentorCard";
-import "./searchMentors.scss";
 
 export const SearchMentors = () => {
   const mentors = useSelector((state) => state.mentor.mentors);
-  console.log(mentors?.data?.[0]);
+  const [range, setRange] = useState(0);
+
+  const onPriceRangeChangeHandler = (e) => {
+    console.log(e.target.value);
+    setRange(e.target.value);
+  };
 
   return (
-    <div className="search-mentors">
+    <div className="search-mentors-page">
       <Container>
-        <Card className="border">
+        <Card className="border text-secondary">
           <Card.Body className="d-flex justify-content-between p-4">
             <Stack direction="horizontal" gap={4}>
-              <FormSelect size="lg">
+              <FormSelect>
                 <option>1-on-1 Session</option>
                 <option>Group Sessions</option>
               </FormSelect>
-              <div>
-                <div className="fw-bold">{`$0-$10000`}</div>
-                <FormRange />
-                <span className="lower-range"></span>
-                <div className="small d-flex justify-content-between">
+              <div style={{ minWidth: "200px" }}>
+                <div className="fw-bold text-nowrap text-secondary text-center">{`$${range} - $10000`}</div>
+                <FormRange
+                  onChange={(e) => onPriceRangeChangeHandler(e)}
+                  min={0}
+                  value={range}
+                  max={10000}
+                />
+                <div
+                  className="small d-flex justify-content-between text-black-50"
+                  style={{ marginTop: "-8px" }}
+                >
                   <div>0</div>
                   <div>10000</div>
                 </div>
@@ -59,7 +70,7 @@ export const SearchMentors = () => {
           </Card.Body>
         </Card>
         <div className="mt-5">
-          <h5 className="fw-bold">5 Results</h5>
+          <h5 className="fw-bold">{mentors?.count ?? 0} Results</h5>
           <div className="py-4">
             <Stack gap={3}>
               {mentors?.data?.length ? (

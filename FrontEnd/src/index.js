@@ -4,6 +4,7 @@ import Root from "./routes/root";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ErrorPage from "./routes/error-page";
 import { SearchMentors } from "./routes/searchMentors/searchMentors";
+import MentorProfile from "./routes/mentor-profile";
 import Confirmation from "./routes/confirmation";
 import DateTime from "./routes/dateTime";
 
@@ -19,6 +20,12 @@ const router = createBrowserRouter([
       {
         path: "search-mentors",
         element: <SearchMentors />,
+        children: [
+          {
+            path: "id",
+            element: <MentorProfile />,
+          },
+        ],
       },
       {
         path: "confirmation",
