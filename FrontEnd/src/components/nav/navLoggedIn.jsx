@@ -36,19 +36,19 @@ const NavLoggedIn = () => {
             <Navbar.Brand as={Link} className="fs-4">
               ATSPL
             </Navbar.Brand>
-            <InputGroup className="my-2 my-lg-0">
+            <InputGroup className="my-2 my-lg-0 border rounded-pill border-primary">
               <Form.Control
                 size="lg"
                 placeholder="What would you like to learn?"
                 aria-label="What would you like to learn?"
                 aria-describedby="basic-addon2"
-                className="rounded-pill rounded-end"
+                className="rounded-pill rounded-end border border-0"
               />
               <Button
                 variant="primary"
                 className="rounded-pill rounded-start bg-primary"
               >
-                <div className="d-flex">
+                <div className="d-flex mx-2">
                   <FaSearch />
                 </div>
               </Button>

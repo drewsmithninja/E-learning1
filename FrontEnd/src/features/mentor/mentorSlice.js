@@ -26,10 +26,15 @@ const initialState = {
         userExperience: "4+",
         profilePicture: "https://randomuser.me/api/portraits/men/64.jpg",
         userId: nanoid(),
-        skills: ["AWS", "MERN", "Azure", "Cloud Computing"],
+        skills: [
+          { id: nanoid(), name: "AWS" },
+          { id: nanoid(), name: "MERN" },
+          { id: nanoid(), name: "Azure" },
+          { id: nanoid(), name: "Cloud Computing" },
+        ],
         price: 43,
-        rating: 3, // (Need to ask client for collection detail)
-        ratingCount: 50, // (Need to ask client for collection detail)
+        rating: 3,
+        ratingCount: 50,
       },
       {
         firstName: "Vilas",
@@ -38,10 +43,15 @@ const initialState = {
         userExperience: "6+",
         profilePicture: "https://randomuser.me/api/portraits/women/64.jpg",
         userId: nanoid(),
-        skills: ["MERN", "AWS", "Azure", "Cloud Computing"],
+        skills: [
+          { id: nanoid(), name: "AWS" },
+          { id: nanoid(), name: "MERN" },
+          { id: nanoid(), name: "Azure" },
+          { id: nanoid(), name: "Cloud Computing" },
+        ],
         price: 0,
-        rating: 3.5, // (Need to ask client for collection detail)
-        ratingCount: 312, // (Need to ask client for collection detail)
+        rating: 3.5,
+        ratingCount: 312,
       },
       {
         firstName: "John",
@@ -50,10 +60,15 @@ const initialState = {
         userExperience: "5+",
         profilePicture: "https://randomuser.me/api/portraits/men/30.jpg",
         userId: nanoid(),
-        skills: ["AWS", "MERN", "Azure", "Cloud Computing"],
+        skills: [
+          { id: nanoid(), name: "AWS" },
+          { id: nanoid(), name: "MERN" },
+          { id: nanoid(), name: "Azure" },
+          { id: nanoid(), name: "Cloud Computing" },
+        ],
         price: 40,
-        rating: 4.7, // (Need to ask client for collection detail)
-        ratingCount: 321, // (Need to ask client for collection detail)
+        rating: 4.7,
+        ratingCount: 321,
       },
     ],
   },
