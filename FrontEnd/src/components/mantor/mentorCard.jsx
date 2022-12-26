@@ -8,7 +8,6 @@ import { FaBriefcase, FaStar } from "react-icons/fa";
 const MentorCard = ({ item }) => {
   const [rating, setRating] = useState(item?.rating);
   const navigate = useNavigate();
-  const { id } = useParams();
 
   const handleRating = (rate) => {
     setRating(rate);
