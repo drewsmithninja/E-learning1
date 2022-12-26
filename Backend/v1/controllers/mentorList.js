@@ -143,6 +143,12 @@ export const getFilteredMentorGetList = async (req, res) => {
                         $regex: '^' + req.body.searchParam,
                         $options: 'i'
                     }
+                },
+                {
+                    'skillsDetails.title': {
+                        $regex: '^' + req.body.searchParam,
+                        $options: 'i'
+                    }
                 }
                 
 
@@ -192,8 +198,6 @@ export const getFilteredMentorGetList = async (req, res) => {
                 "from": "sessions",
                  "localField": "_id",
                  "foreignField": "mentor",
-            //     'let': {"searchId":  {$convert: {input: req.body.session, to : 'objectId', onError: '',onNull: '',
-            // }}},
                 "pipeline":[
                     {"$match": {"sessionType": req.body.session}},{$project: { time: {
                         $dateFromString: {
@@ -269,7 +273,7 @@ export const getFilteredMentorGetList = async (req, res) => {
                 ratingCount:{ $sum : "$skillsDetails.rating" },
                 skillDataCount:{ $sum : { $cond : [ "$isMatch" , 1, 0 ]  } },
                 userExperience:{$first : "$userExperience"},
-                session:{$first:"$sessionCount"},
+               // session:{$first:"$sessionCount"},
 
             }
         },
