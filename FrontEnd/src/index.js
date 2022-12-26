@@ -6,6 +6,7 @@ import ErrorPage from "./routes/error-page";
 import { SearchMentors } from "./routes/searchMentors/searchMentors";
 import Confirmation from "./routes/confirmation";
 import DateTime from "./routes/dateTime";
+import Messaging from "./routes/messaging/messaging";
 
 import "./scss/custom.scss";
 import "./scss/style.scss";
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
       {
         path: "datetime",
         element: <DateTime />,
+      },
+      {
+        path: "messaging",
+        element: <Messaging />,
       },
     ],
   },
