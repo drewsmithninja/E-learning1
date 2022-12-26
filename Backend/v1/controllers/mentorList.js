@@ -186,15 +186,16 @@ export const getFilteredMentorGetList = async (req, res) => {
                 "from": "sessions",
                  "localField": "_id",
                  "foreignField": "mentor",
-                'let': {"searchId":  {$convert: {input: req.body.session, to : 'objectId', onError: '',onNull: '',
-            }}},
+            //     'let': {"searchId":  {$convert: {input: req.body.session, to : 'objectId', onError: '',onNull: '',
+            // }}},
                 "pipeline":[
-                    {"$match": {"$expr":[{"_id": "$$searchId"}]}},{$project: { time: {
+                    {"$match": {"sessionType": req.body.session}},{$project: { time: {
                         $dateFromString: {
                         dateString: {$concat: ["2012-03-03 ", "$time"]} }, 
                     }}
-                },{"$match":{
-                    $and: [{ $expr: { $gt:  ["$time",new Date(`2012-03-03T${req.body.startTime}.000Z`)]} },{ $expr: { $lt:  ["$time",new Date(`2012-03-03T${req.body.endTime}.000Z`)]} }]
+                },
+                {"$match":{
+                    $and: [{ $expr: { $gte:  ["$time",new Date(`2012-03-03T${req.body.startTime}.000Z`)]} },{ $expr: { $lte:  ["$time",new Date(`2012-03-03T${req.body.endTime}.000Z`)]} }]
                 }}
                   ],
                 "as": "sessionsDetails",
