@@ -1,12 +1,13 @@
 import React from "react";
 import { Button, Card, Col, Image, Row, Stack } from "react-bootstrap";
 import { Rating } from "react-simple-star-rating";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
-import { FaBriefcase } from "react-icons/fa";
+import { FaBriefcase, FaStar } from "react-icons/fa";
 
 const MentorCard = ({ item }) => {
   const [rating, setRating] = useState(item?.rating);
+  const navigate = useNavigate();
 
   const handleRating = (rate) => {
     setRating(rate);
@@ -16,6 +17,10 @@ const MentorCard = ({ item }) => {
   const onPointerEnter = () => console.log("Enter");
   const onPointerLeave = () => console.log("Leave");
   const onPointerMove = (value, index) => console.log(value, index); // value: number, index: number
+  const onViewProfileHandler = (e) => {
+    console.log(e);
+    navigate(`${e}`);
+  };
 
   return (
     <Card className="border">
@@ -28,6 +33,7 @@ const MentorCard = ({ item }) => {
                 width={84}
                 height={84}
                 src={item.profilePicture}
+                alt="profile-image"
               />
               <Stack gap={2}>
                 <Stack
@@ -56,8 +62,8 @@ const MentorCard = ({ item }) => {
                   )}
                 </Stack>
                 <p className="small text-secondary">
-                  <span className="fw-bold">{item?.jobTitle},</span> 6+ yrs
-                  experience
+                  <span className="fw-bold">{item?.currentJobTitle},</span> 6+
+                  yrs experience
                 </p>
                 <p
                   className="small text-secondary d-flex align-items-center"
@@ -65,8 +71,8 @@ const MentorCard = ({ item }) => {
                 >
                   <FaBriefcase className="text-primary me-1" />
                   {item?.skills?.map((skill, index) => (
-                    <span key={skill?.id}>
-                      {skill?.name}
+                    <span key={skill?._id}>
+                      {skill?.title}
                       {index < item?.skills.length - 1 ? (
                         <span className="me-1">,</span>
                       ) : (
@@ -83,25 +89,29 @@ const MentorCard = ({ item }) => {
               <Stack
                 gap={1}
                 direction="horizontal"
-                className="d-flex align-items-center"
+                className="d-flex align-items-center text-secondary"
               >
                 <Rating
-                  style={{ marginBottom: "3px" }}
+                  style={{ marginBottom: "5px" }}
                   onClick={handleRating}
                   onPointerEnter={onPointerEnter}
                   onPointerLeave={onPointerLeave}
                   onPointerMove={onPointerMove}
                   initialValue={rating}
+                  readonly
                   allowFraction
                   size={22}
+                  fillIcon={<FaStar size={18} />}
+                  emptyIcon={<FaStar size={18} />}
                 />
                 <h6>{item?.rating}</h6>
                 <div className="small">({item?.ratingCount})</div>
               </Stack>
               <Button
-                className="rounded-pill px-3 py-1"
+                className="rounded-pill px-3 py-2"
                 size="sm"
                 variant="outline-primary my-3"
+                onClick={() => onViewProfileHandler(item?._id)}
               >
                 View Profile
               </Button>
