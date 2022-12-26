@@ -9,10 +9,13 @@ const getMentors = async (data) => {
   return response.data;
 };
 
-const getMentorDetails = async (id) => {
+const getMentorProfile = async (id) => {
+  const data = {
+    userId: id,
+  };
   const response = await axios.post(
     `${API_URL}user/new-user/mentorDetails`,
-    id
+    data
   );
   console.log(response.data);
   return response.data;
@@ -20,7 +23,7 @@ const getMentorDetails = async (id) => {
 
 const mentorAPI = {
   getMentors,
-  getMentorDetails,
+  getMentorProfile,
 };
 
 export default mentorAPI;

@@ -10,7 +10,7 @@ import DateTime from "./routes/dateTime";
 import Messaging from "./routes/messaging/messaging";
 
 import "./scss/custom.scss";
-//import "./scss/style.scss";
+import "./scss/style.scss";
 
 const router = createBrowserRouter([
   {

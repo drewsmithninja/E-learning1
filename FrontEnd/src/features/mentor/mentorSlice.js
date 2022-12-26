@@ -17,6 +17,22 @@ export const getMentors = createAsyncThunk(
   }
 );
 
+export const getMentorProfile = createAsyncThunk(
+  "mentor/getMentorProfile",
+  async (data, thunkAPI) => {
+    try {
+      const response = await mentorAPI.getMentorProfile(data);
+      return response;
+    } catch (error) {
+      const message =
+        (error.response && error.response.data && error.response.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 const initialState = {
   mentors: {
     count: 3,
@@ -146,6 +162,7 @@ const initialState = {
   //     { id: String, language: String },
   //   ],
   // },
+  mentorProfile: {},
   searchQuery: "",
   isError: false,
   isSuccess: false,
@@ -177,6 +194,20 @@ export const MentorSlice = createSlice({
         state.isError = true;
         state.message = action.payload;
         state.mentors = [];
+      })
+      .addCase(getMentorProfile.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getMentorProfile.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.mentorProfile = action.payload.data;
+      })
+      .addCase(getMentorProfile.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+        state.mentorProfile = {};
       });
   },
 });
