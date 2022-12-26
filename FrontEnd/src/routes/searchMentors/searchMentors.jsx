@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Card,
   Container,
@@ -7,18 +7,90 @@ import {
   FormSelect,
   Stack,
 } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import FormRange from "react-bootstrap/esm/FormRange";
 import MentorCard from "../../components/mantor/mentorCard";
+import { getMentors } from "../../features/mentor/mentorSlice";
 
 export const SearchMentors = () => {
   const mentors = useSelector((state) => state.mentor.mentors);
-  const [range, setRange] = useState(0);
+  const searchQuery = useSelector((state) => state.mentor.searchQuery);
 
-  const onPriceRangeChangeHandler = (e) => {
-    console.log(e.target.value);
-    setRange(e.target.value);
+  const [range, setRange] = useState(5000);
+  const [sessionType, setSessionType] = useState(1);
+  const [timeRange, setTimeRange] = useState(1);
+  const [startTime, setStartTime] = useState("06:00:00");
+  const [endTime, setEndTime] = useState("12:00:00");
+  const [sortBy, setSortBy] = useState(1);
+
+  const dispatch = useDispatch();
+
+  // useEffect(() => {
+  //   if (timeRange === 1) {
+  //     setStartTime("06:00");
+  //     setEndTime("12:00");
+  //   } else if (timeRange === 2) {
+  //     setStartTime("12:00");
+  //     setEndTime("17:00");
+  //   } else if (timeRange === 3) {
+  //     setStartTime("17:00");
+  //     setEndTime("22:00");
+  //   }
+  // }, [timeRange]);
+
+  console.log(startTime, endTime, "start, end");
+
+  const updateResult = async () => {
+    const data = {
+      searchParam: searchQuery,
+      maxPrice: range,
+      minPrice: 0,
+      session: sessionType === 1 ? "OneToOneSession" : "",
+      sortby: sortBy,
+      startTime,
+      endTime,
+    };
+    console.log(timeRange, "timeRange");
+    console.log(data, "data");
+    dispatch(getMentors(data));
   };
+
+  useEffect(() => {
+    if (timeRange === 1) {
+      setStartTime("06:00:00");
+      setEndTime("12:00:00");
+    } else if (timeRange === 2) {
+      setStartTime("12:00:00");
+      setEndTime("17:00:00");
+    } else if (timeRange === 3) {
+      setStartTime("17:00:00");
+      setEndTime("22:00:00");
+    }
+  }, [timeRange]);
+
+  const onSessionTypeChangeHandler = (e) => {
+    console.log(e, "sessionType");
+    setSessionType(e);
+  };
+
+  const onRangeChangeHandler = (e) => {
+    console.log(e, "priceRange");
+    setRange(e);
+  };
+
+  const onTimeChangeHandler = (e) => {
+    console.log(e, "timeRange");
+    setTimeRange(e);
+  };
+
+  const onSortByChangeHandler = (e) => {
+    console.log(e, "sortBy");
+    setSortBy(e);
+  };
+
+  useEffect(() => {
+    updateResult();
+  }, [range, sessionType, timeRange, sortBy]);
 
   return (
     <div className="search-mentors-page">
@@ -26,14 +98,17 @@ export const SearchMentors = () => {
         <Card className="border text-secondary">
           <Card.Body className="d-flex justify-content-between p-4">
             <Stack direction="horizontal" gap={4}>
-              <FormSelect>
-                <option>1-on-1 Session</option>
-                <option>Group Sessions</option>
+              <FormSelect
+                value={sessionType}
+                onChange={(e) => onSessionTypeChangeHandler(e.target.value)}
+              >
+                <option value={1}>1-on-1 Session</option>
+                <option value={2}>Group Sessions</option>
               </FormSelect>
               <div style={{ minWidth: "200px" }}>
                 <div className="fw-bold text-nowrap text-secondary text-center">{`$${range} - $10000`}</div>
                 <FormRange
-                  onChange={(e) => onPriceRangeChangeHandler(e)}
+                  onChange={(e) => onRangeChangeHandler(e.target.value)}
                   min={0}
                   value={range}
                   max={10000}
@@ -46,11 +121,13 @@ export const SearchMentors = () => {
                   <div>10000</div>
                 </div>
               </div>
-              <FormSelect>
-                <option>Time</option>
-                <option>Morning (6 AM to 12 PM)</option>
-                <option>Afternoon (12PM - 5 PM)</option>
-                <option>Evening (5PM - 10PM)</option>
+              <FormSelect
+                value={timeRange}
+                onChange={(e) => onTimeChangeHandler(e.target.value)}
+              >
+                <option value={1}>Morning (6 AM to 12 PM)</option>
+                <option value={2}>Afternoon (12PM - 5 PM)</option>
+                <option value={3}>Evening (5PM - 10PM)</option>
               </FormSelect>
             </Stack>
             <div className="d-flex justify-content-center align-items-center">
@@ -58,12 +135,15 @@ export const SearchMentors = () => {
                 <FormLabel column className="text-nowrap">
                   Sort By: &nbsp;
                 </FormLabel>
-                <FormSelect>
-                  <option>Recommended</option>
-                  <option>Rating</option>
-                  <option>Experience</option>
-                  <option>Sessions</option>
-                  <option>Price</option>
+                <FormSelect
+                  value={sortBy}
+                  onChange={(e) => onSortByChangeHandler(e.target.value)}
+                >
+                  <option value={1}>Recommended</option>
+                  <option value={2}>Rating</option>
+                  <option value={3}>Experience</option>
+                  <option value={4}>Sessions</option>
+                  <option value={5}>Price</option>
                 </FormSelect>
               </FormGroup>
             </div>
@@ -75,7 +155,7 @@ export const SearchMentors = () => {
             <Stack gap={3}>
               {mentors?.data?.length ? (
                 mentors?.data?.map((item) => (
-                  <MentorCard key={item.userId} item={item} />
+                  <MentorCard key={item._id} item={item} />
                 ))
               ) : (
                 <Card className="border">

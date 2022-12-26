@@ -9,7 +9,7 @@ import Confirmation from "./routes/confirmation";
 import DateTime from "./routes/dateTime";
 
 import "./scss/custom.scss";
-import "./scss/style.scss";
+// import "./scss/style.scss";
 
 const router = createBrowserRouter([
   {
@@ -20,12 +20,10 @@ const router = createBrowserRouter([
       {
         path: "search-mentors",
         element: <SearchMentors />,
-        children: [
-          {
-            path: "id",
-            element: <MentorProfile />,
-          },
-        ],
+      },
+      {
+        path: "search-mentors/:id",
+        element: <MentorProfile />,
       },
       {
         path: "confirmation",
@@ -35,6 +33,7 @@ const router = createBrowserRouter([
         path: "datetime",
         element: <DateTime />,
       },
+      { path: "mentor-profile", element: <MentorProfile /> },
     ],
   },
 ]);

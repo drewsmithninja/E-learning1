@@ -2,19 +2,24 @@ import axios from "axios";
 
 const API_URL = process.env.REACT_APP_API_URL;
 
-const getMentors = async () => {
-  //   const user = localStorage.getItem("user");
-  //   const authorization = JSON.parse(user)?.payload?.verification?.token;
-  const response = await axios.post(`${API_URL}/mentors`, {
-    headers: {
-      //   authorization,
-    },
-  });
+const getMentors = async (data) => {
+  const response = await axios.post(`${API_URL}user/new-user/mentorList`, data);
+  console.log(response.data, "res.data");
   return response.data;
 };
 
-const studentAPI = {
-  getMentors,
+const getMentorDetails = async (id) => {
+  const response = await axios.post(
+    `${API_URL}user/new-user/mentorDetails`,
+    id
+  );
+  console.log(response.data);
+  return response.data;
 };
 
-export default studentAPI;
+const mentorAPI = {
+  getMentors,
+  getMentorDetails,
+};
+
+export default mentorAPI;
