@@ -14,6 +14,7 @@ export const getFilteredMentorLIst = async (req, res) => {
     const loggedInUser = req.user;
     let {menteeTopics: topics} = req.user; // yahan pr topics ki jgh req.user ki menteeTopics aayegi    --->>> let { topics } = req.body;
     // let id = req.params.linkedinId;
+    console.log("test", req);
     try {
         // let loggedUser = await user.find({ linkedinId: id });
         // let topics = loggedUser[0].menteeTopics;
@@ -27,6 +28,7 @@ export const getFilteredMentorLIst = async (req, res) => {
 
         if (topics.length == 1) {
             let fetchedUsers = await user.find({ _id: { $ne: loggedInUser._id }, mentorTopics: topics[0] }).limit(8);
+            console.log("fetchedUsers", fetchedUsers);
             for (let i = 0; i < fetchedUsers.length; i++) {
                 data.push(fetchedUsers[i]);
             }
@@ -122,7 +124,6 @@ export const getMentorDetails = async (req, res) => {
     }
 }
 export const getFilteredMentorGetList = async (req, res) => {
- 
     try {
         var conditions = {
             $or: [
@@ -231,7 +232,18 @@ export const getFilteredMentorGetList = async (req, res) => {
             },
         },
         {
-            $unwind: {path: '$skillsDetails', }
+            "$lookup": {
+                "from": "skills",
+                "localField": "_id",
+                "foreignField": "user",
+                "as": "skillsDetailsMain"
+            },
+        },
+        // {
+        //     $unwind: {path: '$skillsDetails', }
+        // },
+        {
+            $unwind: {path: '$skillsDetailsMain', }
         },
         {$addFields : {
             sessionCount:{$size:"$sessionsDetails"},
@@ -265,8 +277,8 @@ export const getFilteredMentorGetList = async (req, res) => {
                 },
                 skills: {
                     $push: {
-                        "_id":"$skillsDetails._id",
-                        "title":"$skillsDetails.title"
+                        "_id":"$skillsDetailsMain._id",
+                        "title":"$skillsDetailsMain.title"
                     }
                 },
                 
@@ -288,6 +300,7 @@ export const getFilteredMentorGetList = async (req, res) => {
             "$sort":req.body.sortby
         },
         ]).exec();
+        console.log("users", users);
         if(users.length>0){
             Response.success(res, "Mentors found successfully!", users);
         }else{

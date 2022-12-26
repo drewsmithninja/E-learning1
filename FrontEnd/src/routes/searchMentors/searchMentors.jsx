@@ -150,7 +150,7 @@ export const SearchMentors = () => {
           </Card.Body>
         </Card>
         <div className="mt-5">
-          <h5 className="fw-bold">{mentors?.count ?? 0} Results</h5>
+          <h5 className="fw-bold">{mentors?.data?.length ?? 0} Results</h5>
           <div className="py-4">
             <Stack gap={3}>
               {mentors?.data?.length ? (

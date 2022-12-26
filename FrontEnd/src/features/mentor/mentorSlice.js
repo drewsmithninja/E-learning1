@@ -17,64 +17,24 @@ export const getMentors = createAsyncThunk(
   }
 );
 
+export const getMentorProfile = createAsyncThunk(
+  "mentor/getMentorProfile",
+  async (data, thunkAPI) => {
+    try {
+      const response = await mentorAPI.getMentorProfile(data);
+      return response;
+    } catch (error) {
+      const message =
+        (error.response && error.response.data && error.response.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 const initialState = {
-  mentors: {
-    count: 3,
-    message: "list fetch successfully",
-    data: [
-      {
-        firstName: "Dharmik",
-        lastName: "Shah",
-        jobTitle: "Tech lead",
-        userExperience: "4+",
-        profilePicture: "https://randomuser.me/api/portraits/men/64.jpg",
-        userId: nanoid(),
-        skills: [
-          { id: nanoid(), name: "AWS" },
-          { id: nanoid(), name: "MERN" },
-          { id: nanoid(), name: "Azure" },
-          { id: nanoid(), name: "Cloud Computing" },
-        ],
-        price: 43,
-        rating: 3,
-        ratingCount: 50,
-      },
-      {
-        firstName: "Vilas",
-        lastName: "Shah",
-        jobTitle: "Project Manager",
-        userExperience: "6+",
-        profilePicture: "https://randomuser.me/api/portraits/women/64.jpg",
-        userId: nanoid(),
-        skills: [
-          { id: nanoid(), name: "AWS" },
-          { id: nanoid(), name: "MERN" },
-          { id: nanoid(), name: "Azure" },
-          { id: nanoid(), name: "Cloud Computing" },
-        ],
-        price: 0,
-        rating: 3.5,
-        ratingCount: 312,
-      },
-      {
-        firstName: "John",
-        lastName: "Doe",
-        jobTitle: "MERN-Stack",
-        userExperience: "5+",
-        profilePicture: "https://randomuser.me/api/portraits/men/30.jpg",
-        userId: nanoid(),
-        skills: [
-          { id: nanoid(), name: "AWS" },
-          { id: nanoid(), name: "MERN" },
-          { id: nanoid(), name: "Azure" },
-          { id: nanoid(), name: "Cloud Computing" },
-        ],
-        price: 40,
-        rating: 4.7,
-        ratingCount: 321,
-      },
-    ],
-  },
+  mentors: {},
   // currentMentor: {
   //   firstName: "Dharmik",
   //   lastName: "Shah",
@@ -146,6 +106,7 @@ const initialState = {
   //     { id: String, language: String },
   //   ],
   // },
+  mentorProfile: {},
   searchQuery: "",
   isError: false,
   isSuccess: false,
@@ -177,6 +138,20 @@ export const MentorSlice = createSlice({
         state.isError = true;
         state.message = action.payload;
         state.mentors = [];
+      })
+      .addCase(getMentorProfile.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getMentorProfile.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.mentorProfile = action.payload.data;
+      })
+      .addCase(getMentorProfile.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+        state.mentorProfile = {};
       });
   },
 });

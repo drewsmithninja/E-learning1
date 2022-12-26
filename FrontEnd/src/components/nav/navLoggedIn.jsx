@@ -38,10 +38,10 @@ const NavLoggedIn = () => {
       searchParam: searchQuery,
       maxPrice: 10000,
       minPrice: 0,
-      session: "1-on-1 Session",
+      session: "OneToOneSession",
       sortby: 1,
-      startTime: "12:00:00",
-      endTime: "18:30:00",
+      startTime: "06:00:00",
+      endTime: "12:00:00",
     };
     dispatch(getMentors(data));
   };
