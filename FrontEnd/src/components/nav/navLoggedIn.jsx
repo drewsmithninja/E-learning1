@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Container,
   Form,
@@ -26,8 +26,26 @@ import {
 import { NavLink } from "./navLink";
 import userAvatar from "../../assets/images/avatar/07.jpg";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getMentors, setSearchQuery } from "../../features/mentor/mentorSlice";
 
 const NavLoggedIn = () => {
+  const searchQuery = useSelector((state) => state.mentor.searchQuery);
+  const dispatch = useDispatch();
+
+  const onSearchHandler = () => {
+    const data = {
+      searchParam: searchQuery,
+      maxPrice: 10000,
+      minPrice: 0,
+      session: "1-on-1 Session",
+      sortby: 1,
+      startTime: "12:00:00",
+      endTime: "18:30:00",
+    };
+    dispatch(getMentors(data));
+  };
+
   return (
     <Navbar bg="white" expand="lg" className="sticky-top mb-4">
       <Container>
@@ -36,19 +54,24 @@ const NavLoggedIn = () => {
             <Navbar.Brand as={Link} className="fs-4">
               ATSPL
             </Navbar.Brand>
-            <InputGroup className="my-2 my-lg-0">
+            <InputGroup className="my-2 my-lg-0 border rounded-pill border-primary">
               <Form.Control
                 size="lg"
                 placeholder="What would you like to learn?"
                 aria-label="What would you like to learn?"
                 aria-describedby="basic-addon2"
-                className="rounded-pill rounded-end"
+                className="rounded-pill rounded-end border border-0"
+                onChange={(e) => dispatch(setSearchQuery(e.target.value))}
+                onKeyUp={(e) => {
+                  if (e.key === "Enter") onSearchHandler();
+                }}
               />
               <Button
                 variant="primary"
                 className="rounded-pill rounded-start bg-primary"
+                onClick={(e) => onSearchHandler(e)}
               >
-                <div className="d-flex">
+                <div className="d-flex mx-2">
                   <FaSearch />
                 </div>
               </Button>
