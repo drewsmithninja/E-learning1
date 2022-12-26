@@ -137,6 +137,12 @@ export const getFilteredMentorGetList = async (req, res) => {
                         $regex: '^' + req.body.searchParam,
                         $options: 'i'
                     }
+                },
+                {
+                    'lastName': {
+                        $regex: '^' + req.body.searchParam,
+                        $options: 'i'
+                    }
                 }
                 
 
@@ -210,7 +216,7 @@ export const getFilteredMentorGetList = async (req, res) => {
                  "localField": "_id",
                  "foreignField": "user",
                 "as": "userexperiencesDetails"
-            },
+        },      
         },
         {
             "$lookup": {
