@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card, Col, Container, Image, Row, Stack } from "react-bootstrap";
+import { Card, Col, Container, Image, Row, Stack, Spinner } from "react-bootstrap";
 import { FaBriefcase, FaStar } from "react-icons/fa";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,8 +13,6 @@ const MentorProfile = ({ item }) => {
   const dispatch = useDispatch();
   const {mentorProfile, isLoading} = useSelector((state) => state.mentor);
   const [rating, setRating] = useState(5);
-  console.log("mProfile", mentorProfile,isLoading );
-  console.log("id", id);
   const onPointerEnter = () => console.log("Enter");
   const onPointerLeave = () => console.log("Leave");
   const onPointerMove = (value, index) => console.log(value, index); // value: number, index: number
@@ -22,6 +20,7 @@ const MentorProfile = ({ item }) => {
     console.log("Test");
     // other logic
   };
+  const joinDate = new Date(mentorProfile?.createdAt);
 
   const responsive = {
     superLargeDesktop: {
@@ -46,92 +45,14 @@ const MentorProfile = ({ item }) => {
   useEffect(() => {
     if (id) {
       dispatch(getMentorProfile(id));
-      console.log("Load");
     }
   }, [id]);
 
   return (
     <div className="mentor-profile">
-      {/* {mentorProfile ? 
-       <Container>
-        <Row>
-          <Col lg={8}>
-            <Card>
-              <Card.Img
-                style={{ objectFit: "cover" }}
-                variant="top"
-                src="../assets/images/bg/05.jpg"
-                height={200}
-              />
-              <Card.Body classNameName="p-4">
-                <Stack direction="horizontal" gap={3}>
-                  <Image
-                    style={{ marginTop: "-80px" }}
-                    roundedCircle
-                    width={128}
-                    height={128}
-                    src={"assets/images/avatar/07.jpg"}
-                    classNameName="border border-3 border-white"
-                  />
-                  <Stack gap={2}>
-                    <Stack
-                      direction="horizontal"
-                      gap={2}
-                      classNameName="d-flex align-items-start"
-                    >
-                      <div classNameName="fw-bold">
-                        <Link classNameName="text-dark">{`${mentorProfile?.firstName} ${mentorProfile?.lastName}`}</Link>
-                      </div>
-                      {item?.price === 0 ? (
-                        <div classNameName="d-flex border border-primary rounded-pill px-3 d-flex align-items-center">
-                          <Image
-                            style={{ height: "fit-content" }}
-                            classNameName="pe-2 py-2"
-                            src="../../assets/images/myimages/free.png"
-                          />
-                          <div classNameName="fw-bold text-primary">Free</div>
-                        </div>
-                      ) : (
-                        <div classNameName="d-flex border border-primary rounded-pill px-3 d-flex align-items-center">
-                          <div classNameName="fw-bold text-primary">
-                            ${mentorProfile?.price}/Hr.
-                          </div>
-                        </div>
-                      )}
-                    </Stack>
-                    <p classNameName="small text-secondary">
-                      <span classNameName="fw-bold">{mentorProfile?.jobTitle},</span> 6+ yrs
-                      experience
-                    </p>
-                    <p
-                      classNameName="small text-secondary d-flex align-items-center"
-                      style={{ marginTop: "-6px" }}
-                    >
-                      <FaBriefcase classNameName="text-primary me-1" />
-                      {mentorProfile?.skills?.map((skill, index) => (
-                        <span key={skill?.id}>
-                          {skill?.name}
-                          {index < item?.skills.length - 1 ? (
-                            <span classNameName="me-1">,</span>
-                          ) : (
-                            ""
-                          )}
-                        </span>
-                      ))}
-                    </p>
-                  </Stack>
-                </Stack>
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col lg={4}>Hello</Col>
-        </Row>
-      </Container>
-      : "Loading"}; */}
       {mentorProfile ? 
        <Container>
             <Row gap={4}>
-
                 { /* Main content START */ }
                 <div className="col-lg-8 vstack gap-4">
                     { /* My profile START */ }
@@ -196,7 +117,7 @@ const MentorProfile = ({ item }) => {
                             <ul className="list-inline mb-0 text-center text-sm-start mt-3 mt-sm-0">
                                 { /* <li className="list-inline-item"><i className="bi bi-briefcase me-1"></i> Lead Developer</li> */ }
                                 <li className="list-inline-item"><i className="bi bi-geo-alt me-1"></i> {mentorProfile?.location}</li>
-                                <li className="list-inline-item"><i className="bi bi-calendar2-plus me-1"></i> Joined on {mentorProfile?.createdAt}</li>
+                                <li className="list-inline-item"><i className="bi bi-calendar2-plus me-1"></i> Joined on {`${joinDate.getDate()} ${joinDate.getMonth()} ${joinDate.getFullYear()}`}</li>
                             </ul>
                         </div>
                         <h5 className="card-title ms-4 mt-3">Profile info</h5>
@@ -799,7 +720,9 @@ const MentorProfile = ({ item }) => {
             </Row>
             { /* Row END */ }
         </Container>
-        :"Loading" }
+        :<Spinner animation="border" role="status">
+        <span className="visually-hidden">Loading...</span>
+      </Spinner> }
     </div>
   );
 };

@@ -165,9 +165,9 @@ const DateTime = () => {
                     value={date}
                     prev2Label={null}
                     next2Label={null}
-                    tileDisabled={({ date, view }) =>
-                      date.getDay(0, 1, 2, 3, 4)
-                    }
+                    // tileDisabled={({ date, view }) =>
+                    //   date.getDay(0, 1, 2, 3, 4)
+                    // }
                   />
                 </Col>
                 <Col lg={4} md={4}>
